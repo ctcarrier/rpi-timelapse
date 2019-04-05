@@ -27,5 +27,5 @@ except Exception, e:
     print "Retrying..."
     # Occasionally, capture can fail but retries will be successful.
 
-print(dataToSendBack)
+print('Donzo')
 sys.stdout.flush()
