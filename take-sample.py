@@ -20,7 +20,7 @@ try:
 except Exception, e:
     logging.info("Error setting configs")
 try:
-    filename = camera.capture_image_and_download(shot=0, image_directory='/var/lib/timelapse/preview/test.jpg')
+    filename = camera.capture_image_and_download(shot=0, image_directory='/var/lib/timelapse/preview/')
 except Exception, e:
     logging.error("Error on capture." + str(e))
     print "Error on capture." + str(e)
