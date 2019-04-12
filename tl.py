@@ -189,16 +189,12 @@ class App():
                 logging.info("Shot: %d T: %s ISO: %d" % (self.shot, config[1], config[3]))
                 print "Shot: %d T: %s ISO: %d" % (self.shot, config[1], config[3])
                 try:
-                    self.camera.set_shutter_speed(config[1])
-                    self.camera.set_iso(iso=str(config[3]))
+                    self.camera.set_shutter_speed("1/40")
+                    self.camera.set_iso(iso="100")
                 except Exception, e:
                     logging.info("Error setting configs")
                 try:
-                    if flash_on == True:
-                        self.turnLightOn()
                     filename = self.camera.capture_image_and_download(shot=self.shot, image_directory=TMP_DIRECTORY)
-                    if flash_on == True:
-                        self.turnLightOff()
                 except Exception, e:
                     logging.error("Error on capture." + str(e))
                     print "Error on capture." + str(e)
@@ -212,26 +208,14 @@ class App():
 
                 logging.info("Shot: %d File: %s Brightness: %s Flash: %s Been Over: %s" % (self.shot, filename, brightness, flash_on, been_over))
 
-                if brightness < MIN_BRIGHTNESS and current_config < len(CONFIGS) - 1 and been_over == False:
-                    logging.info("Under not been over")
-                    if (flash_on == False and current_config >= FLASH_THRESHOLD):
-                        flash_on = True
-                    else: current_config = current_config + 1
-                elif brightness > MAX_BRIGHTNESS and current_config > 0:
-                    logging.info("Over")
-                    been_over = True
-                    if (flash_on == True and current_config < FLASH_THRESHOLD):
-                        flash_on = False
-                    else: current_config = current_config - 1
-                else:
-                    os.rename(TMP_DIRECTORY+filename, IMAGE_DIRECTORY+filename)
-                    been_over = False
-                    self.shot += 1
-                    if last_started and last_acquired and last_acquired - last_started < MIN_INTER_SHOT_DELAY_SECONDS:
-                        logging.info("Sleeping for %s" % str(MIN_INTER_SHOT_DELAY_SECONDS - (last_acquired - last_started)))
-                        print "Sleeping for %s" % str(MIN_INTER_SHOT_DELAY_SECONDS - (last_acquired - last_started))
+                os.rename(TMP_DIRECTORY+filename, IMAGE_DIRECTORY+filename)
+                been_over = False
+                self.shot += 1
+                if last_started and last_acquired and last_acquired - last_started < MIN_INTER_SHOT_DELAY_SECONDS:
+                    logging.info("Sleeping for %s" % str(MIN_INTER_SHOT_DELAY_SECONDS - (last_acquired - last_started)))
+                    print "Sleeping for %s" % str(MIN_INTER_SHOT_DELAY_SECONDS - (last_acquired - last_started))
 
-                        time.sleep((MIN_INTER_SHOT_DELAY_SECONDS - (last_acquired - last_started)).seconds)
+                    time.sleep((MIN_INTER_SHOT_DELAY_SECONDS - (last_acquired - last_started)).seconds)
         except Exception,e:
             logging.error("Error: %s" %(str(e)))
             print "Error: %s" %(str(e))
