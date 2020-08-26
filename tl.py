@@ -20,7 +20,7 @@ import logging
 import signal
 
 __version__ = "1.0"
-MIN_INTER_SHOT_DELAY_SECONDS = timedelta(seconds=600)
+MIN_INTER_SHOT_DELAY_SECONDS = timedelta(seconds=60)
 MIN_BRIGHTNESS = 12000
 MAX_BRIGHTNESS = 17000
 IMAGE_DIRECTORY = "/var/lib/timelapse/img/"
@@ -189,8 +189,8 @@ class App():
                 logging.info("Shot: %d T: %s ISO: %d" % (self.shot, config[1], config[3]))
                 print "Shot: %d T: %s ISO: %d" % (self.shot, config[1], config[3])
                 try:
-                    self.camera.set_shutter_speed("1/40")
-                    self.camera.set_iso(iso="100")
+                    self.camera.set_shutter_speed("1/60")
+                    self.camera.set_iso(iso="200")
                 except Exception, e:
                     logging.info("Error setting configs")
                 try:
@@ -202,11 +202,11 @@ class App():
                     # Occasionally, capture can fail but retries will be successful.
                     continue
                 prev_acquired = last_acquired
-                brightness = float(self.idy.mean_brightness(TMP_DIRECTORY+filename))
+                # brightness = float(self.idy.mean_brightness(TMP_DIRECTORY+filename))
                 last_acquired = datetime.now()
-                persist.writeLastConfig(current_config, self.shot, brightness, SETTINGS_FILE, flash_on)
+                persist.writeLastConfig(current_config, self.shot, 0, SETTINGS_FILE, flash_on)
 
-                logging.info("Shot: %d File: %s Brightness: %s Flash: %s Been Over: %s" % (self.shot, filename, brightness, flash_on, been_over))
+                logging.info("Shot: %d File: %s Brightness: %s Flash: %s Been Over: %s" % (self.shot, filename, 0, flash_on, been_over))
 
                 os.rename(TMP_DIRECTORY+filename, IMAGE_DIRECTORY+filename)
                 been_over = False
