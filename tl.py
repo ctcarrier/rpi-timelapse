@@ -34,8 +34,10 @@ FLASH_THRESHOLD = 19
 LOG_FILENAME = '/var/log/timelapse.log'
 
 outPin = 21
+RELAY = 17
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(outPin, GPIO.OUT)
+GPIO.setup(RELAY, GPIO.OUT)
 
 # Canon camera shutter settings
 CONFIGS = [(48, "1/1600", 2, 100),
@@ -194,7 +196,10 @@ class App():
                 except Exception, e:
                     logging.info("Error setting configs")
                 try:
+                    GPIO.output(RELAY,True)
+                    time.sleep(500)
                     filename = self.camera.capture_image_and_download(shot=self.shot, image_directory=TMP_DIRECTORY)
+                    GPIO.output(RELAY,False)
                 except Exception, e:
                     logging.error("Error on capture." + str(e))
                     print "Error on capture." + str(e)
