@@ -197,15 +197,15 @@ class App():
                     logging.info("Error setting configs")
                 try:
                     GPIO.output(RELAY,True)
-                    time.sleep(500)
+                    time.sleep(1)
                     filename = self.camera.capture_image_and_download(shot=self.shot, image_directory=TMP_DIRECTORY)
-                    GPIO.output(RELAY,False)
                 except Exception, e:
                     logging.error("Error on capture." + str(e))
                     print "Error on capture." + str(e)
                     print "Retrying..."
                     # Occasionally, capture can fail but retries will be successful.
                     continue
+		GPIO.output(RELAY,False)
                 prev_acquired = last_acquired
                 # brightness = float(self.idy.mean_brightness(TMP_DIRECTORY+filename))
                 last_acquired = datetime.now()
