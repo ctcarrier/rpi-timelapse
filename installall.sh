@@ -12,6 +12,7 @@ sudo apt install -y gettext
 # sudo apt install -y libtool
 # sudo apt install -y msgfmt
 sudo apt install -y libpopt-dev
+sudo apt remove -y gvfs-backends
 sudo git clone https://code.videolan.org/videolan/x264 /usr/src/x264
 cd /usr/src/x264 && sudo ./configure
 cd /usr/src/x264 && sudo make

@@ -20,7 +20,7 @@ import logging
 import signal
 
 __version__ = "1.0"
-MIN_INTER_SHOT_DELAY_SECONDS = timedelta(seconds=60)
+MIN_INTER_SHOT_DELAY_SECONDS = timedelta(seconds=10)
 MIN_BRIGHTNESS = 12000
 MAX_BRIGHTNESS = 17000
 IMAGE_DIRECTORY = "/var/lib/timelapse/img/"
@@ -191,7 +191,7 @@ class App():
                 logging.info("Shot: %d T: %s ISO: %d" % (self.shot, config[1], config[3]))
                 print "Shot: %d T: %s ISO: %d" % (self.shot, config[1], config[3])
                 try:
-                    self.camera.set_shutter_speed("1/60")
+                    self.camera.set_shutter_speed("1/40")
                     self.camera.set_iso(iso="200")
                 except Exception, e:
                     logging.info("Error setting configs")
