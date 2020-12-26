@@ -16,10 +16,18 @@ sudo git clone https://code.videolan.org/videolan/x264 /usr/src/x264
 cd /usr/src/x264 && sudo ./configure
 cd /usr/src/x264 && sudo make
 cd /usr/src/x264 && sudo make install
+
+sudo git clone https://github.com/gphoto/gphoto2.git /usr/src/gphoto2
+cd /usr/src/gphoto2 && sudo autoreconf -is
+cd /usr/src/gphoto2 && sudo ./configure --prefix=/usr/local
+cd /usr/src/gphoto2 && sudo make
+cd /usr/src/gphoto2 && sudo make install
+
 sudo git clone https://github.com/gphoto/libgphoto2.git /usr/src/libgphoto2
 cd /usr/src/libgphoto2 && sudo autoreconf -is
 cd /usr/src/libgphoto2 && sudo ./configure --prefix=/usr/local
 cd /usr/src/libgphoto2 && sudo make
+cd /usr/src/libgphoto2 && sudo make install
 sudo touch /var/log/timelapse.log
 sudo chmod 777 /var/log/timelapse.log
 sudo mkdir /var/log/s3monitor
